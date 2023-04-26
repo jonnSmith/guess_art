@@ -1,21 +1,21 @@
 /** @type {import('next-seo').DefaultSeoProps} */
 const defaultSEOConfig = {
-  title: "guess_art",
-  titleTemplate: "%s | guess_art",
-  defaultTitle: "guess_art",
-  description: "Next.js + chakra-ui + TypeScript template",
+  title: "Guest the Artist",
+  titleTemplate: "%s | Guest the Artist",
+  defaultTitle: "Guest the Artist",
+  description: "",
   canonical: "https://vercel.com/jonnSmith/guess_art",
   openGraph: {
     url: "https://vercel.com/jonnSmith/guess_art",
-    title: "guess_art",
-    description: "Next.js + chakra-ui + TypeScript template",
+    title: "Guess the Artist",
+    description: "",
     images: [
       {
-        url: "https://og-image.sznm.dev/**nextarter-chakra**.sznm.dev.png?theme=dark&md=1&fontSize=125px&images=https%3A%2F%2Fsznm.dev%2Favataaars.svg&widths=250",
-        alt: "vercel.com/jonnSmith/guess_art og-image",
+        url: "",
+        alt: "https://vercel.com/jonnSmith/guess_art og-image",
       },
     ],
-    site_name: "nextarter-chakra",
+    site_name: "guess_art",
   },
   twitter: {
     handle: "@jonnSmith",

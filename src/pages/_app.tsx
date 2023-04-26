@@ -1,16 +1,18 @@
-/* eslint-disable react/jsx-props-no-spreading */
-import type { AppProps } from 'next/app';
-import Head from 'next/head';
-import { DefaultSeo } from 'next-seo';
+import type { AppProps } from 'next/app'
+import Head from 'next/head'
+import { DefaultSeo } from 'next-seo'
+import type { FC } from 'react'
 
-import defaultSEOConfig from '../../next-seo.config';
-import { Chakra } from '~/lib/components/Chakra';
-import Layout from '~/lib/layout';
-import '~/lib/styles/globals.css';
+import defaultSEOConfig from '~/../next-seo.config'
+import { ChakraHOC } from '~/ui/hoc/chakra'
+import Layout from '~/ui/layout'
 
-const MyApp = ({ Component, pageProps }: AppProps) => {
+import '~/lib/styles/globals.css'
+
+const AppInstance: FC<AppProps> = (props: AppProps) => {
+  const { Component, pageProps } = props
   return (
-    <Chakra>
+    <ChakraHOC>
       <Head>
         <meta
           name="viewport"
@@ -21,8 +23,8 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
       <Layout>
         <Component {...pageProps} />
       </Layout>
-    </Chakra>
-  );
-};
+    </ChakraHOC>
+  )
+}
 
-export default MyApp;
+export default AppInstance
