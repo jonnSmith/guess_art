@@ -31,10 +31,18 @@ const SeoSettings = {
   manifestLink: '/manifest.json'
 }
 
+const defaultState = {
+  step: 0,
+  score: 0,
+  artist: '',
+  selected: []
+}
+
 export {
   HelperImageDefaults,
   CentredFlex,
   StyleSpaces,
   SeoSettings,
+  defaultState,
   TechStackLogotypes
 }

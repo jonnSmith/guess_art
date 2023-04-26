@@ -5,33 +5,46 @@ import { useCallback, useEffect, useState } from 'react'
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { debounce } from 'underscore'
 
-import type { AlbumData } from '~/lib/contracts/types'
+import type { UserStateData } from '~/lib/contracts/types'
 import { Artists } from '~/lib/services/artists'
+import { ClientStorageService } from '~/lib/storages/client'
 import { GuessAlbumForm } from '~/ui/components/guess/form'
-import { StyleSpaces } from '~/ui/settings/constants'
+import { defaultState, StyleSpaces } from '~/ui/settings/constants'
 
 const Home: FC = () => {
+  const clientStorage = new ClientStorageService()
+  const [userState, setUserState] = useState<UserStateData>({ ...defaultState })
   const requestAlbums = debounce(
     async () => {
+      let state = await clientStorage.Storage.getItem<UserStateData>('state')
+      if (state?.selected?.length) {
+        return { ...defaultState, ...state }
+      }
       const { artist } = await Artists.requestArtist()
       if (artist === undefined) {
         return ''
       }
       const { albums } = await Artists.requestAlbums(artist)
-      return Artists.selectAlbums({ selected: [], albums, limit: 5 })?.selected
+      const { selected } = Artists.selectAlbums({
+        selected: [],
+        albums,
+        limit: 5
+      })
+      state = { ...defaultState, artist, selected }
+      await clientStorage.Storage.setItem('state', state)
+      return state
     },
     1,
     true
   )
-  const [albums, setAlbums] = useState<Array<AlbumData>>([])
   const setupAlbums = useCallback(() => {
-    if (albums?.length) {
+    if (userState?.selected?.length) {
       return
     }
-    requestAlbums().then(result => {
-      setAlbums(result as AlbumData[])
+    requestAlbums().then(state => {
+      setUserState({ ...defaultState, ...state })
     })
-  }, [setAlbums, albums, requestAlbums])
+  }, [userState, setUserState, requestAlbums])
 
   useEffect(() => {
     setupAlbums()
@@ -49,7 +62,7 @@ const Home: FC = () => {
       mb={8}
       w="full">
       <NextSeo title="Home" />
-      <GuessAlbumForm title={albums[0]} />
+      <GuessAlbumForm title={userState?.selected[0]} />
     </Flex>
   )
 }

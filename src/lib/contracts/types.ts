@@ -46,11 +46,19 @@ interface SelectAlbumsData {
   selected: Array<AlbumData>
   limit: number
 }
+interface UserStateData {
+  step: number
+  score: number
+  artist: string
+  selected: Array<AlbumData>
+}
+
 type Merge<P, T> = Omit<P, keyof T> & T
 
 export type {
   ArtistData,
   AlbumData,
+  UserStateData,
   ArtistRequest,
   ApiRequestParams,
   ApiResponseData,

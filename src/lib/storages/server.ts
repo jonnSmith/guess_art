@@ -11,7 +11,7 @@ import { EnvDataKey, ParseSettings } from '~/lib/settings/enums'
 class ServerStorageService {
   private url: string | undefined
 
-  private client: PrismaClient | undefined
+  private static client: PrismaClient | undefined
 
   constructor() {
     this.SETUP_URL = { ...process.env } as unknown as EnvSettings
@@ -38,17 +38,17 @@ class ServerStorageService {
   }
 
   SETUP_PRISMA() {
-    if (this.client !== undefined) {
+    if (ServerStorageService.client !== undefined) {
       return
     }
-    this.client = new PrismaClient()
+    ServerStorageService.client = new PrismaClient()
   }
 
   get PRISMA() {
-    if (this.client === undefined) {
-      this.client = new PrismaClient()
+    if (ServerStorageService.client === undefined) {
+      ServerStorageService.client = new PrismaClient()
     }
-    return this.client
+    return ServerStorageService.client
   }
 
   stringifyAlbums(albums: Array<AlbumData>): string {
