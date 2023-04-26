@@ -13,7 +13,10 @@ const TechStackLogotypes = (colorMode: string): Array<HelperImageProps> => [
 ]
 
 const StyleSpaces = {
-  gap: 2
+  gap: 5,
+  borderRadius: 5,
+  p: 2,
+  size: 42
 }
 
 const CentredFlex = {
