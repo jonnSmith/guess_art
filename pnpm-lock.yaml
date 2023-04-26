@@ -31,6 +31,9 @@ dependencies:
   next-seo:
     specifier: ^6.0.0
     version: 6.0.0(next@13.3.1)(react-dom@18.2.0)(react@18.2.0)
+  pnpm:
+    specifier: 6.35.1
+    version: 6.35.1
   prisma:
     specifier: ^4.13.0
     version: 4.13.0
@@ -6785,6 +6788,12 @@ packages:
     engines: {node: '>=14'}
     hasBin: true
     dev: true
+
+  /pnpm@6.35.1:
+    resolution: {integrity: sha512-Pt5JEjV2JSORAqw/XtjfF4k34PBQFpqV3kUMFYSlyrWJsio5Hr3lqy2oJkpprMrVbOyBJsxXfZDQOlvmytIrgA==}
+    engines: {node: '>=12.17'}
+    hasBin: true
+    dev: false
 
   /postcss@8.4.14:
     resolution: {integrity: sha512-E398TUmfAYFPBSdzgeieK2Y1+1cpdxJx8yXbK/m57nRhKSmk1GB2tO4lbLBtlkfPQTDKfe4Xqv1ASWPpayPEig==}

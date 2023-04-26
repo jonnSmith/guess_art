@@ -5,8 +5,7 @@
   "author": "jonnSmith",
   "scripts": {
     "dev": "next dev",
-    "prebuild": "pnpm update -g",
-    "prepublish": "prisma generate",
+    "prebuild": "prisma generate",
     "build": "next build",
     "build:turbo": "npx turbo build",
     "postbuild": "next-sitemap --config next-sitemap.config.js",
@@ -35,6 +34,7 @@
     "next": "^13.3.1",
     "next-pwa": "^5.6.0",
     "next-seo": "^6.0.0",
+    "pnpm": "6.35.1",
     "prisma": "^4.13.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -62,7 +62,7 @@
   },
   "engines": {
     "node": ">=16.x.x",
-    "pnpm": ">=8"
+    "pnpm": ">=6.35"
   },
-  "packageManager": "pnpm@8.1.0"
+  "packageManager": "pnpm@6.35.1"
 }
