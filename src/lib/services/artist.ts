@@ -82,7 +82,7 @@ class ArtistsService {
   }
 
   filterObviousAlbums(albums: Array<AlbumData>, artist: string) {
-    const filter = Utils.isAlbumObvious(artist)
+    const filter = Utils.isAlbumNotObvious(artist)
     return albums.filter(filter)
   }
 

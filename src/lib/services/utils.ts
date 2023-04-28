@@ -2,17 +2,22 @@ import { skipWorldsCompare } from '~/lib/settings/constants'
 import { LocalStateSetup } from '~/lib/settings/enums'
 
 class UtilsService {
+  cleanString = (s: string) => `${s.toLowerCase().replace(' ', '')}`
+
   simplifyString(s: string) {
-    let cleaned = `${s.toLowerCase().replace(' ', '')}`
+    let cleaned = this.cleanString(s)
     skipWorldsCompare.forEach(w => {
       cleaned = cleaned.replace(`${w}`, '')
     })
     return cleaned
   }
 
-  isAlbumObvious(artist: string) {
-    return (album: string) =>
-      !this.simplifyString(album).match(`${this.simplifyString(artist)}`)
+  isAlbumNotObvious(artist: string) {
+    const artistName = `${this.simplifyString(artist)}`
+    return (album: string) => {
+      const isMatch = this.cleanString(album).match(artistName)
+      return !isMatch?.length && !isMatch
+    }
   }
 
   guessArtist(artist: string, guess: string) {

@@ -89,12 +89,12 @@ class ITunesService {
         a.artistId === id &&
         a.collectionName !== undefined
     }
-    const isObvious = Utils.isAlbumObvious(term)
+    const isObvious = Utils.isAlbumNotObvious(term)
     return (a: MusicEntityData) =>
       a.wrapperType === type &&
       a.artistId === id &&
       a.collectionName !== undefined &&
-      !isObvious(a.collectionName)
+      isObvious(a.collectionName)
   }
 
   public checkRequest(params: ArtistRequest) {
