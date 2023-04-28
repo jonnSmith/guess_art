@@ -64,51 +64,56 @@ const UserScoreContainer: FC = () => {
       gap={StyleSpaces.gap}
       w="full">
       <NextSeo title={userState.username} />
+      <React.Suspense fallback={<Spinner />}>
+        {userState?.username ? (
+          <TableContainer>
+            <Table variant="simple">
+              <TableCaption>{userState?.username}</TableCaption>
+              <Thead>
+                <Tr>
+                  <Th>Field</Th>
+                  <Th>Value</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {Object.entries({
+                  ...pick(userState, ['id', 'score', 'userAgent', 'language'])
+                }).map(u => (
+                  <Tr key={`field-${u[0]}`}>
+                    <Td>{u[0]}</Td>
+                    <Td>
+                      <Text
+                        style={{
+                          maxWidth: StyleSpaces.cell,
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis'
+                        }}>
+                        {u[1]}
+                      </Text>
+                    </Td>
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>
+          </TableContainer>
+        ) : (
+          // TODO: replace with suspense, fix suspense logic
+          <Spinner />
+        )}
+      </React.Suspense>
       <Flex
         w="full"
         alignItems="center"
         justifyContent="center"
         flexDirection="row"
         gap={StyleSpaces.gap}>
-        <Link type="button" href="/">
+        <Link href="/">
           <Button>{UIStrings.guessFormButton}</Button>
         </Link>
-        <Link type="button" href="/scores">
+        <Link href="/scores">
           <Button>{UIStrings.scoresListButton}</Button>
         </Link>
       </Flex>
-      <React.Suspense fallback={<Spinner />}>
-        <TableContainer>
-          <Table variant="simple">
-            <TableCaption>{userState?.username}</TableCaption>
-            <Thead>
-              <Tr>
-                <Th>Field</Th>
-                <Th>Value</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {Object.entries({
-                ...pick(userState, ['id', 'score', 'userAgent', 'language'])
-              }).map(u => (
-                <Tr key={`field-${u[0]}`}>
-                  <Td>{u[0]}</Td>
-                  <Td>
-                    <Text
-                      style={{
-                        maxWidth: StyleSpaces.cell,
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis'
-                      }}>
-                      {u[1]}
-                    </Text>
-                  </Td>
-                </Tr>
-              ))}
-            </Tbody>
-          </Table>
-        </TableContainer>
-      </React.Suspense>
     </Flex>
   )
 }

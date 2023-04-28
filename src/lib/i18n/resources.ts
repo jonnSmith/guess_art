@@ -13,9 +13,10 @@ enum UIStrings {
   requiredUsernameError = '! please, type username 2 save u`r score',
   usernameFormAddition = '* displays in high scores table',
   scoreText = 'Your score',
-  userScoreLinkText = 'Check profile: ',
-  guessFormButton = 'Guess again?',
-  scoresListButton = 'Other`s score',
+  userScoreLinkText = 'Profile',
+  guessFormButton = 'Again?',
+  guessReturnButton = 'Continue?',
+  scoresListButton = 'Scores',
   usersScoresTitle = 'Guess game scores table'
 }
 

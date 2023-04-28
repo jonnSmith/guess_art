@@ -73,11 +73,16 @@ class UserService {
 
   async setUserScore(user: UserStateData): Promise<UserStateData> {
     let userUpdated: UserStateData
+    let update = { ...user }
     if (user?.id === undefined) {
-      userUpdated = await this.ServerDB.insertUser({ ...user })
-      return userUpdated
+      const record = await this.ServerDB.getUser({ username: update?.username })
+      if (record?.id === undefined) {
+        userUpdated = await this.ServerDB.insertUser({ ...user })
+        return userUpdated
+      }
+      update = { ...update, ...record }
     }
-    userUpdated = await this.ServerDB.updateUser({ ...user })
+    userUpdated = await this.ServerDB.updateUser({ ...update })
     return userUpdated
   }
 

@@ -1,4 +1,5 @@
 import {
+  Spinner,
   Divider,
   Button,
   Flex,
@@ -16,7 +17,7 @@ import { FaItunes } from 'react-icons/fa'
 
 import { UIStrings } from '~/lib/i18n/resources'
 import type { GuessAlbumProps } from '~/ui/contracts/props'
-import { StyleSpaces } from '~/ui/settings/constants'
+import { CentredFlex, StyleSpaces } from '~/ui/settings/constants'
 
 const GuessAlbumForm: FC<GuessAlbumProps> = props => {
   const { title, onSubmit } = props
@@ -39,6 +40,7 @@ const GuessAlbumForm: FC<GuessAlbumProps> = props => {
       w="full"
       gap={StyleSpaces.gap}
       textAlign="center"
+      {...CentredFlex}
       flexDirection="column">
       <Heading
         w="full"
@@ -49,11 +51,24 @@ const GuessAlbumForm: FC<GuessAlbumProps> = props => {
         {UIStrings.guessFormTitle}
       </Heading>
       <Divider />
-      <Heading w="full" textAlign="center" fontSize="xl">
-        {title}
-      </Heading>
+      {title ? (
+        <Heading
+          w="full"
+          textAlign="center"
+          style={{
+            maxWidth: '80%',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis'
+          }}
+          fontSize="xl">
+          {title}
+        </Heading>
+      ) : (
+        // TODO: replace with suspense, fix suspense logic
+        <Spinner />
+      )}
       <FormControl as="fieldset" flexDirection="column" gap={StyleSpaces.p}>
-        <FormLabel as="legend" opacity={0.5} color={isError ? 'red' : 'white'}>
+        <FormLabel as="legend" opacity={0.5} color={isError ? 'red' : 'gray'}>
           {isError
             ? UIStrings.requiredArtistError
             : UIStrings.guessFormDescription}

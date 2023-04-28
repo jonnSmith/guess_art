@@ -22,6 +22,7 @@ const StyleSpaces = {
 
 const CentredFlex = {
   alignContent: 'center',
+  alignItems: 'center',
   justifyContent: 'center',
   display: 'flex'
 }

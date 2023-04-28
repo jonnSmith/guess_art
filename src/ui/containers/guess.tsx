@@ -154,16 +154,24 @@ const GuessForm: FC<WithRouterProps> = props => {
       <Divider />
       <Tag
         aria-label={`${userState.score}`}>{`${UIStrings.scoreText}: ${userState.score}`}</Tag>
-      {userState?.username ? (
-        <Link href={`/scores/${userState.username}`}>
-          <Button>
-            {UIStrings.userScoreLinkText} {userState.username}
-          </Button>
+      <Flex
+        w="full"
+        alignItems="center"
+        justifyContent="center"
+        flexDirection="row"
+        gap={StyleSpaces.gap}>
+        <Link href="/scores">
+          <Button>{UIStrings.scoresListButton}</Button>
         </Link>
-      ) : (
-        /* eslint-disable-next-line react/jsx-no-useless-fragment */
-        <></>
-      )}
+        {userState?.username ? (
+          <Link href={`/scores/${userState.username}`}>
+            <Button>{UIStrings.userScoreLinkText}</Button>
+          </Link>
+        ) : (
+          /* eslint-disable-next-line react/jsx-no-useless-fragment */
+          <></>
+        )}
+      </Flex>
     </Flex>
   )
 }
