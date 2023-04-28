@@ -14,9 +14,10 @@ const TechStackLogotypes = (colorMode: string): Array<HelperImageProps> => [
 
 const StyleSpaces = {
   gap: 5,
-  borderRadius: 5,
+  borderRadius: 8,
   p: 2,
-  size: 42
+  size: 42,
+  cell: 300
 }
 
 const CentredFlex = {
@@ -31,11 +32,19 @@ const SeoSettings = {
   manifestLink: '/manifest.json'
 }
 
-const defaultState = {
+const defaultUserState = {
+  step: 0,
+  score: 0,
+  prevFailed: false,
+  username: ''
+}
+
+const defaultArtistState = {
   step: 0,
   score: 0,
   artist: '',
-  selected: []
+  selected: [],
+  prevFailed: false
 }
 
 export {
@@ -43,6 +52,7 @@ export {
   CentredFlex,
   StyleSpaces,
   SeoSettings,
-  defaultState,
+  defaultUserState,
+  defaultArtistState,
   TechStackLogotypes
 }

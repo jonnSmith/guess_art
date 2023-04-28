@@ -1,3 +1,3 @@
-import Home from '~/ui/pages/home'
+import { GuessFormContainer } from '~/ui/containers/guess'
 
-export default Home
+export default GuessFormContainer

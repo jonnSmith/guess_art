@@ -1,7 +1,7 @@
 import { Box, SimpleGrid } from '@chakra-ui/react'
 import type { FC, PropsWithChildren } from 'react'
 
-import { MotionBox } from '~/ui/components/motion/Box'
+import { MotionBox } from '~/ui/components/motion/box'
 
 import { Footer } from './footer'
 import { Header } from './header'

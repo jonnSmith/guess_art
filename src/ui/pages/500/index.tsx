@@ -11,7 +11,7 @@ import {
 import Link from 'next/link'
 import { NextSeo } from 'next-seo'
 
-import { MotionBox } from '~/ui/components/motion/Box'
+import { MotionBox } from '~/ui/components/motion/box'
 
 const Page500 = () => {
   const { colorMode } = useColorMode()

@@ -20,7 +20,7 @@ const defaultSEOConfig = {
   twitter: {
     handle: "@jonnSmith",
     cardType: "summary_large_image",
-  },
-};
+  }
+}
 
-export default defaultSEOConfig;
+export default defaultSEOConfig

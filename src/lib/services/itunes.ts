@@ -1,3 +1,5 @@
+import { pick } from 'underscore'
+
 import type {
   ApiRequestParams,
   ApiResponseData,
@@ -7,8 +9,10 @@ import type {
   ApiDataFilterParams,
   ArtistData
 } from '~/lib/contracts/types'
+import { Utils } from '~/lib/services/utils'
 import {
   API_URL,
+  defaultHeaders,
   fetchParams,
   lookupRequest,
   requestParams,
@@ -22,13 +26,11 @@ class ITunesService {
 
   private readonly headers: Headers
 
-  private dbInstance: ServerStorageService | undefined
+  private static serverStorage: ServerStorageService | undefined
 
   constructor() {
     this.API_URL = API_URL
-    this.headers = new Headers({
-      'Content-Type': 'application/json'
-    })
+    this.headers = new Headers({ ...defaultHeaders })
   }
 
   get requestConfig() {
@@ -38,11 +40,11 @@ class ITunesService {
     } as RequestInit
   }
 
-  get DB() {
-    if (this.dbInstance === undefined) {
-      this.dbInstance = new ServerStorageService()
+  get ServerDB() {
+    if (ITunesService.serverStorage === undefined) {
+      ITunesService.serverStorage = new ServerStorageService()
     }
-    return this.dbInstance
+    return ITunesService.serverStorage
   }
 
   public requestURL(params: ApiRequestParams) {
@@ -87,11 +89,12 @@ class ITunesService {
         a.artistId === id &&
         a.collectionName !== undefined
     }
+    const isObvious = Utils.isAlbumObvious(term)
     return (a: MusicEntityData) =>
       a.wrapperType === type &&
       a.artistId === id &&
       a.collectionName !== undefined &&
-      !a.collectionName.toLowerCase().match(`/${term.toLowerCase()}/gi`)
+      !isObvious(a.collectionName)
   }
 
   public checkRequest(params: ArtistRequest) {
@@ -107,7 +110,7 @@ class ITunesService {
 
   public async requestArtistAlbums(params: ArtistRequest): Promise<ArtistData> {
     this.checkRequest(params)
-    let response: ArtistData | undefined = await this.DB.getArtist({
+    let response: ArtistData | undefined = await this.ServerDB.getArtist({
       ...params
     })
     if (response !== undefined) {
@@ -122,8 +125,17 @@ class ITunesService {
     const albumsData = await this.requestData({ id: artistId })
     const albums = this.parseAlbums(albumsData.results, artistId, params?.term)
     response = { ...params, artistId: `${artistId}`, albums }
-    const id = await this.DB.setArtist({ ...response })
+    const id = await this.ServerDB.setArtist({ ...response })
     return { id, ...response }
+  }
+
+  public async guessAlbumArtist(params: ArtistRequest): Promise<ArtistRequest> {
+    this.checkRequest(params)
+    const response = await this.ServerDB.isArtistAlbum(params)
+    if (response?.term === undefined) {
+      throw new Error('ALBUM WITH PROVIDED ARTIST WAS NOT FOUND IN ServerDB')
+    }
+    return { ...pick(response, 'term') }
   }
 }
 

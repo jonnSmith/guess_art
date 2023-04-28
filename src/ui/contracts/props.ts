@@ -4,7 +4,11 @@ interface HelperImageProps {
   src: string
 }
 interface GuessAlbumProps {
-  title: string
+  title?: string
+  onSubmit: (term: string) => void
+}
+interface UsernameFormProps {
+  onFinish: (username: string) => void
 }
 
-export type { HelperImageProps, GuessAlbumProps }
+export type { HelperImageProps, GuessAlbumProps, UsernameFormProps }

@@ -1,6 +1,6 @@
 enum AppSettings {
   name = 'guess_art',
-  version = 0.1
+  version = 1
 }
 
 enum ApiLayers {
@@ -39,6 +39,26 @@ enum ParseSettings {
   spaceArtist = '+'
 }
 
+enum LocalStateSetup {
+  maxScore = 5,
+  missCharValue = 1,
+  limit = 5,
+  userStateKey = 'user',
+  artistStateKey = 'artist'
+}
+
+enum NextApiLayers {
+  root = 'api',
+  artist = 'artist',
+  album = 'album',
+  users = 'users'
+}
+
+enum UserDBRecord {
+  username = 'username',
+  score = 'score'
+}
+
 export {
   ApiLayers,
   ApiBooleanFlag,
@@ -47,5 +67,8 @@ export {
   LanguageLocale,
   ResponseCode,
   ParseSettings,
-  WrapperType
+  WrapperType,
+  NextApiLayers,
+  LocalStateSetup,
+  UserDBRecord
 }
