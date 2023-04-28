@@ -80,7 +80,7 @@ class UserService {
         userUpdated = await this.ServerDB.insertUser({ ...user })
         return userUpdated
       }
-      update = { ...update, ...record }
+      update = { ...update, ...record, score: update.score + record.score }
     }
     userUpdated = await this.ServerDB.updateUser({ ...update })
     return userUpdated
