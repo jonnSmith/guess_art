@@ -5,7 +5,8 @@ import type {
   EnvSettings,
   SelectAlbumsData,
   AlbumData,
-  ArtistStateData
+  ArtistStateData,
+  ProcessedArtists
 } from '~/lib/contracts/types'
 import { Utils } from '~/lib/services/utils'
 import {
@@ -53,16 +54,18 @@ class ArtistsService {
     ArtistsService.artists = this.parseArtists(env)
   }
 
-  get Artist() {
-    const index = Math.floor(Math.random() * ArtistsService.artists.length)
-    return ArtistsService.artists[index]
-  }
-
-  getArtist(env: EnvSettings) {
+  getArtist(env: EnvSettings, artists?: Array<string>) {
     if (!ArtistsService.artists.length) {
       this.Artists = { ...env }
     }
-    return this.Artist
+    let chooseArtists = [...ArtistsService.artists]
+    if (artists && artists?.length) {
+      chooseArtists = [...ArtistsService.artists].filter(
+        a => !artists.some(p => p === a)
+      )
+    }
+    const index = Math.floor(Math.random() * chooseArtists.length)
+    return chooseArtists[index]
   }
 
   async requestArtist(): Promise<{ artist: string }> {
@@ -88,6 +91,9 @@ class ArtistsService {
 
   selectAlbums(data: SelectAlbumsData): SelectAlbumsData {
     const { albums, selected, limit } = data
+    if (albums.length <= limit) {
+      return { ...data, selected: [...albums] }
+    }
     if (selected.length === limit || !albums.length) {
       return { ...data }
     }
@@ -99,12 +105,12 @@ class ArtistsService {
     })
   }
 
-  public setupAlbums = debounce(
-    async (rewrite = false): Promise<ArtistStateData> => {
+  setupAlbums = debounce(
+    async (artists?: ProcessedArtists): Promise<ArtistStateData> => {
       let state = await this.LocalDB.Storage.getItem<ArtistStateData>(
         LocalStateSetup.artistStateKey
       )
-      if (!rewrite && state?.selected?.length) {
+      if (!artists && state?.selected?.length) {
         return { ...state }
       }
       const { artist } = await this.requestArtist()
@@ -117,7 +123,7 @@ class ArtistsService {
         albums: this.filterObviousAlbums(albums, artist),
         limit: +LocalStateSetup.limit
       })
-      state = { artist, selected }
+      state = { artist, selected, artists: (artists ?? {}) as ProcessedArtists }
       await this.LocalDB.Storage.setItem(LocalStateSetup.artistStateKey, state)
       return state
     },

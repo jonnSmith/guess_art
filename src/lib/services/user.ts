@@ -1,6 +1,7 @@
 import { debounce, pick } from 'underscore'
 
 import type {
+  ArtistStateData,
   ErrorMessage,
   UserDBData,
   UserRecordData,
@@ -17,7 +18,7 @@ import {
 } from '~/lib/settings/enums'
 import { ClientStorageService } from '~/lib/storages/client'
 import { ServerStorageService } from '~/lib/storages/server'
-import { defaultUserState } from '~/ui/settings/constants'
+import { defaultArtistState, defaultUserState } from '~/ui/settings/constants'
 
 class UserService {
   private static clientStorage: ClientStorageService
@@ -120,6 +121,12 @@ class UserService {
         await this.LocalDB.Storage.setItem<UserStateData>(
           LocalStateSetup.userStateKey,
           result
+        )
+        await this.LocalDB.Storage.setItem<ArtistStateData>(
+          LocalStateSetup.artistStateKey,
+          {
+            ...defaultArtistState
+          }
         )
       }
       return { ...result }

@@ -45,7 +45,8 @@ const defaultArtistState = {
   score: 0,
   artist: '',
   selected: [],
-  prevFailed: false
+  prevFailed: false,
+  artists: {}
 }
 
 export {

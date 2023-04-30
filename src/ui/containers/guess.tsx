@@ -10,7 +10,8 @@ import { pick } from 'underscore'
 import type {
   UserStateData,
   ArtistStateData,
-  ErrorMessage
+  ErrorMessage,
+  ProcessedArtists
 } from '~/lib/contracts/types'
 import { UIStrings } from '~/lib/i18n/resources'
 import { useLogger } from '~/lib/logger'
@@ -75,7 +76,11 @@ const GuessForm: FC<WithRouterProps> = props => {
         })
         return
       }
-      Artist.setupAlbums(true)
+      const artists: ProcessedArtists = {
+        ...artistState.artists,
+        [`${artistState.artist}`]: artistState.artist
+      }
+      Artist.setupAlbums(artists)
         .then(artistStateUpdate => {
           setArtistState(artistStateUpdate ?? artistState)
           return User.updateUserState({

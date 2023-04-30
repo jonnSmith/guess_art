@@ -28,15 +28,15 @@ import { defaultUserState, StyleSpaces } from '~/ui/settings/constants'
 
 const ScoresListContainer: FC = () => {
   // eslint-disable-next-line react/jsx-no-useless-fragment
-  const [users, setUsers] = useState<Array<UserRecordData>>([])
-  const [user, setUser] = useState<UserStateData>({ ...defaultUserState })
+  const [users, setUsers] = useState<Array<UserRecordData>>()
+  const [user, setUser] = useState<UserStateData>()
   const { Logger } = useLogger({
     level: 'debug',
     id: 'ScoresListContainer',
     color: 'lightgreen'
   })
   const setupUsers = useCallback(() => {
-    if (users?.length || user?.id) {
+    if (users !== undefined && user !== undefined) {
       return
     }
     User.queryUsersData()
@@ -49,12 +49,14 @@ const ScoresListContainer: FC = () => {
         return User.requestUserState()
       })
       .then(state => {
+        let userState = { ...defaultUserState }
         if (state?.id !== undefined) {
-          setUser(state)
+          userState = { ...state }
         }
+        setUser(userState)
         Logger.d('Setup user', state)
       })
-  }, [users?.length, user?.id, setUsers, setUser, Logger])
+  }, [users, user, Logger])
 
   useEffect(() => {
     setupUsers()
@@ -78,8 +80,8 @@ const ScoresListContainer: FC = () => {
             <TableCaption>{UIStrings.usersScoresTitle}</TableCaption>
             <Thead>
               <Tr>
-                <Th>Username</Th>
-                <Th>Score</Th>
+                <Th>{UIStrings.usersScoresTableColumnName}</Th>
+                <Th>{UIStrings.usersScoresTableColumnScore}</Th>
               </Tr>
             </Thead>
             <Tbody>
@@ -115,9 +117,14 @@ const ScoresListContainer: FC = () => {
         <Link type="button" href="/">
           <Button>{UIStrings.guessFormButton}</Button>
         </Link>
-        <Link type="button" href={`/scores/${user.username}`}>
-          <Button>{UIStrings.userScoreLinkText}</Button>
-        </Link>
+        {user?.id ? (
+          <Link type="button" href={`/scores/${user.username}`}>
+            <Button>{UIStrings.userScoreLinkText}</Button>
+          </Link>
+        ) : (
+          // eslint-disable-next-line react/jsx-no-useless-fragment
+          <></>
+        )}
       </Flex>
     </Flex>
   )

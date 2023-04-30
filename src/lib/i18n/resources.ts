@@ -17,7 +17,9 @@ enum UIStrings {
   guessFormButton = 'Again?',
   guessReturnButton = 'Continue?',
   scoresListButton = 'Scores',
-  usersScoresTitle = 'Guess game scores table'
+  usersScoresTitle = 'Guess game scores table',
+  usersScoresTableColumnName = 'Username',
+  usersScoresTableColumnScore = 'Scores'
 }
 
 export { UIStrings }

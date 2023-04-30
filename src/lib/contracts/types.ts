@@ -9,11 +9,10 @@ import ProcessEnv = NodeJS.ProcessEnv
 
 type ArtistRequest = { term: string }
 type UserRequest = { username: string }
+type AlbumData = string
 interface ApiRequestParams extends Partial<ArtistRequest> {
   id?: string | undefined
 }
-type AlbumData = string
-
 interface ArtistData {
   id?: string
   time?: Date | string
@@ -21,9 +20,11 @@ interface ArtistData {
   artistId: string
   albums: Array<AlbumData>
 }
+type ProcessedArtists = { [key: string]: string }
 interface ArtistStateData {
   artist: string
   selected: Array<AlbumData>
+  artists: ProcessedArtists
 }
 type ArtistDBData = ArtistData & {
   albums: string
@@ -95,6 +96,7 @@ export type {
   ResponseCodeValue,
   ApiDataFilterParams,
   ApiDataFilterFunction,
+  ProcessedArtists,
   UserRecordFields,
   UsersRecordsData,
   UserRecordData
