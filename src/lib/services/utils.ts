@@ -1,5 +1,6 @@
 import { skipWorldsCompare } from '~/lib/settings/constants'
 import { LocalStateSetup } from '~/lib/settings/enums'
+import { StyleSpaces } from '~/ui/settings/constants'
 
 class UtilsService {
   cleanString = (s: string) => `${s.toLowerCase().replace(' ', '')}`
@@ -34,6 +35,12 @@ class UtilsService {
       }
     }
     return score
+  }
+
+  hasTextOverlay(text: string) {
+    return (
+      `${text}`.length < Math.floor(StyleSpaces.cell / StyleSpaces.text + 10)
+    )
   }
 }
 

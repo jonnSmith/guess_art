@@ -17,7 +17,15 @@ const StyleSpaces = {
   borderRadius: 8,
   p: 2,
   size: 42,
+  text: 16,
   cell: 300
+}
+
+const StyleCellText = {
+  fontSize: StyleSpaces.text,
+  maxWidth: StyleSpaces.cell,
+  overflow: 'hidden',
+  textOverflow: 'ellipsis'
 }
 
 const CentredFlex = {
@@ -53,6 +61,7 @@ export {
   HelperImageDefaults,
   CentredFlex,
   StyleSpaces,
+  StyleCellText,
   SeoSettings,
   defaultUserState,
   defaultArtistState,

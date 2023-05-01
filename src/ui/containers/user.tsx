@@ -9,8 +9,7 @@ import {
   Td,
   Th,
   Tr,
-  Tbody,
-  Text
+  Tbody
 } from '@chakra-ui/react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -23,6 +22,7 @@ import type { UserStateData } from '~/lib/contracts/types'
 import { UIStrings } from '~/lib/i18n/resources'
 import { useLogger } from '~/lib/logger'
 import { User } from '~/lib/services/user'
+import { CellText } from '~/ui/components/helper/cell.text'
 import { defaultUserState, StyleSpaces } from '~/ui/settings/constants'
 
 const UserScoreContainer: FC = () => {
@@ -81,14 +81,7 @@ const UserScoreContainer: FC = () => {
                   <Tr key={`field-${u[0]}`}>
                     <Td>{u[0]}</Td>
                     <Td>
-                      <Text
-                        style={{
-                          maxWidth: StyleSpaces.cell,
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis'
-                        }}>
-                        {u[1]}
-                      </Text>
+                      <CellText text={`${u[1]}`} />
                     </Td>
                   </Tr>
                 ))}

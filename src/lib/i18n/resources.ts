@@ -21,7 +21,9 @@ enum UIStrings {
   usersScoresTitle = 'Guess game scores table',
   usersScoresTableColumnName = 'Username',
   usersScoresTableColumnScore = 'Scores',
-  noUsersLink = 'No one set a score yet, you can be the first who did it)'
+  noUsersLink = 'No one set a score yet, you can be the first who did it)',
+  userProfileTableCol1 = 'Field',
+  userProfileTableCol2 = 'Value'
 }
 
 export { UIStrings }
