@@ -113,7 +113,11 @@ class ITunesService {
     let response: ArtistData | undefined = await this.ServerDB.getArtist({
       ...params
     })
-    if (response !== undefined) {
+    const isActual = Utils.isRecordActual({
+      TTL: process?.env?.CACHE_TTL,
+      time: response?.time
+    })
+    if (response !== undefined && isActual) {
       return { ...response }
     }
     const artistData = await this.requestData({ ...params })

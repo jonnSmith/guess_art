@@ -72,6 +72,11 @@ interface UserStateData extends UserDBData {
 type UserRecordFields = keyof typeof UserDBRecord
 type UserRecordData = Pick<UserDBData, UserRecordFields>
 type UsersRecordsData = { users: Array<UserRecordData> }
+interface IsActualParams {
+  TTL?: string
+  time?: Date | string | null
+}
+
 type Merge<P, T> = Omit<P, keyof T> & T
 
 export type {
@@ -99,5 +104,6 @@ export type {
   ProcessedArtists,
   UserRecordFields,
   UsersRecordsData,
-  UserRecordData
+  UserRecordData,
+  IsActualParams
 }

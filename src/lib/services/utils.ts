@@ -1,8 +1,16 @@
+import type { IsActualParams } from '~/lib/contracts/types'
+import { ConsoleLogger } from '~/lib/logger'
 import { skipWorldsCompare } from '~/lib/settings/constants'
 import { LocalStateSetup } from '~/lib/settings/enums'
 import { StyleSpaces } from '~/ui/settings/constants'
 
 class UtilsService {
+  private Logger: ConsoleLogger
+
+  constructor() {
+    this.Logger = new ConsoleLogger(['debug', this.constructor.name.toString()])
+  }
+
   cleanString = (s: string) => `${s.toLowerCase().replace(' ', '')}`
 
   simplifyString(s: string) {
@@ -41,6 +49,18 @@ class UtilsService {
     return (
       `${text}`.length < Math.floor(StyleSpaces.cell / StyleSpaces.text + 10)
     )
+  }
+
+  isRecordActual(params: IsActualParams) {
+    const { TTL, time } = params
+    if (TTL === undefined || Number.isNaN(+TTL) || !time) {
+      return true
+    }
+    const timeStoring: number = Math.ceil(
+      (new Date().getTime() - new Date(time).getTime()) / 1000
+    )
+    this.Logger.d('Record time params:', timeStoring, time, +TTL)
+    return timeStoring < +TTL
   }
 }
 
