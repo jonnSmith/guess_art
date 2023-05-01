@@ -1,4 +1,12 @@
-import { Button, Tag, Flex, Spinner, Divider, Progress } from '@chakra-ui/react'
+import {
+  Button,
+  Tag,
+  Flex,
+  Spinner,
+  Divider,
+  Progress,
+  useBoolean
+} from '@chakra-ui/react'
 import type { WithRouterProps } from 'next/dist/client/with-router'
 import Link from 'next/link'
 import { withRouter } from 'next/router'
@@ -40,10 +48,13 @@ const GuessForm: FC<WithRouterProps> = props => {
   const [userState, setUserState] = useState<UserStateData>({
     ...defaultUserState
   })
+  const [isLoading, { on, off }] = useBoolean(false)
+
   const setupAlbums = useCallback(() => {
     if (artistState?.selected?.length) {
       return
     }
+    on()
     Artist.setupAlbums()
       .then(state => {
         Logger.d(state)
@@ -53,8 +64,16 @@ const GuessForm: FC<WithRouterProps> = props => {
       .then(state => {
         Logger.d('Setup state', state)
         setUserState(state)
+        off()
       })
-  }, [setUserState, setArtistState, artistState?.selected?.length, Logger])
+  }, [
+    on,
+    off,
+    setUserState,
+    setArtistState,
+    artistState?.selected?.length,
+    Logger
+  ])
 
   useEffect(() => {
     setupAlbums()
@@ -66,6 +85,7 @@ const GuessForm: FC<WithRouterProps> = props => {
 
   const onSubmit = useCallback(
     (term: string) => {
+      on()
       const score = Utils.guessArtist(artistState.artist, term)
       if (!score) {
         User.updateUserState({
@@ -73,6 +93,7 @@ const GuessForm: FC<WithRouterProps> = props => {
           prevFailed: true
         }).then(state => {
           setUserState(state)
+          off()
         })
         return
       }
@@ -91,9 +112,10 @@ const GuessForm: FC<WithRouterProps> = props => {
         })
         .then(userStateUpdate => {
           setUserState(userStateUpdate)
+          off()
         })
     },
-    [artistState, userState]
+    [off, on, artistState, userState]
   )
 
   const onFinish = useCallback(
@@ -111,7 +133,8 @@ const GuessForm: FC<WithRouterProps> = props => {
         ['userAgent', 'language']
       )
     }
-    Logger.d(user)
+    Logger.d('User update:', user)
+    on()
     User.sendUserData(user).then((state: UserStateData | ErrorMessage) => {
       if ((state as UserStateData)?.id === undefined) {
         Logger.w(state)
@@ -120,7 +143,7 @@ const GuessForm: FC<WithRouterProps> = props => {
       Logger.d(state)
       router.push?.call(this, `/scores/${(state as UserStateData).username}`)
     })
-  }, [Logger, router.push, userState])
+  }, [on, Logger, router.push, userState])
 
   useEffect(() => {
     if (userState.step === LocalStateSetup.limit && !!userState?.username) {
@@ -152,7 +175,7 @@ const GuessForm: FC<WithRouterProps> = props => {
         <React.Suspense fallback={<Spinner />}>
           <GuessAlbumForm
             {...{ onSubmit }}
-            title={artistState?.selected[userState.step]}
+            title={isLoading ? '' : artistState?.selected[userState.step]}
           />
         </React.Suspense>
       )}
@@ -173,7 +196,6 @@ const GuessForm: FC<WithRouterProps> = props => {
             <Button>{UIStrings.userScoreLinkText}</Button>
           </Link>
         ) : (
-          /* eslint-disable-next-line react/jsx-no-useless-fragment */
           <></>
         )}
       </Flex>

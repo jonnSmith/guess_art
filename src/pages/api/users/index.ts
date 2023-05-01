@@ -6,7 +6,7 @@ import { ResponseCode } from '~/lib/settings/enums'
 async function reqUsers(req: NextApiRequest, res: NextApiResponse) {
   const users = await User.getUsersData()
   res.statusCode = ResponseCode.success
-  res.json({ users })
+  res.json({ users: users ? users.sort((a, b) => b.score - a.score) : [] })
 }
 
 export default reqUsers

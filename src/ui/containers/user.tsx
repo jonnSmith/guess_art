@@ -26,7 +26,6 @@ import { User } from '~/lib/services/user'
 import { defaultUserState, StyleSpaces } from '~/ui/settings/constants'
 
 const UserScoreContainer: FC = () => {
-  // eslint-disable-next-line react/jsx-no-useless-fragment
   const router = useRouter()
   const { username } = router.query
   const [userState, setUserState] = useState<UserStateData>({

@@ -14,12 +14,14 @@ enum UIStrings {
   usernameFormAddition = '* displays in high scores table',
   scoreText = 'Your score',
   userScoreLinkText = 'Profile',
-  guessFormButton = 'Again?',
+  guessFormButtonUser = 'Again?',
+  guessFormButton = 'Play!',
   guessReturnButton = 'Continue?',
   scoresListButton = 'Scores',
   usersScoresTitle = 'Guess game scores table',
   usersScoresTableColumnName = 'Username',
-  usersScoresTableColumnScore = 'Scores'
+  usersScoresTableColumnScore = 'Scores',
+  noUsersLink = 'No one set a score yet, you can be the first who did it)'
 }
 
 export { UIStrings }

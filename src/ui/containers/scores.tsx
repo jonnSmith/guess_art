@@ -1,5 +1,4 @@
 import {
-  Spinner,
   Button,
   Flex,
   Table,
@@ -24,10 +23,10 @@ import type {
 import { UIStrings } from '~/lib/i18n/resources'
 import { useLogger } from '~/lib/logger'
 import { User } from '~/lib/services/user'
+import { ScoresPlaceholder } from '~/ui/components/helper/scores.placeholder'
 import { defaultUserState, StyleSpaces } from '~/ui/settings/constants'
 
 const ScoresListContainer: FC = () => {
-  // eslint-disable-next-line react/jsx-no-useless-fragment
   const [users, setUsers] = useState<Array<UserRecordData>>()
   const [user, setUser] = useState<UserStateData>()
   const { Logger } = useLogger({
@@ -106,7 +105,7 @@ const ScoresListContainer: FC = () => {
         </TableContainer>
       ) : (
         // TODO: replace with suspense, fix suspense logic
-        <Spinner />
+        <ScoresPlaceholder length={users?.length} />
       )}
       <Flex
         w="full"
@@ -114,15 +113,22 @@ const ScoresListContainer: FC = () => {
         justifyContent="center"
         flexDirection="row"
         gap={StyleSpaces.gap}>
-        <Link type="button" href="/">
-          <Button>{UIStrings.guessFormButton}</Button>
-        </Link>
+        {user ? (
+          <Link type="button" href="/">
+            <Button>
+              {user?.username
+                ? UIStrings.guessFormButtonUser
+                : UIStrings.guessFormButton}
+            </Button>
+          </Link>
+        ) : (
+          <></>
+        )}
         {user?.id ? (
           <Link type="button" href={`/scores/${user.username}`}>
             <Button>{UIStrings.userScoreLinkText}</Button>
           </Link>
         ) : (
-          // eslint-disable-next-line react/jsx-no-useless-fragment
           <></>
         )}
       </Flex>

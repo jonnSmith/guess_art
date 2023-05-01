@@ -11,7 +11,8 @@
     "space-in-parens": "off",
     "no-unneeded-ternary": "off",
     "class-methods-use-this": "off",
-    "import/prefer-default-export": "off"
+    "import/prefer-default-export": "off",
+    "react/jsx-no-useless-fragment": "off"
   },
   "parserOptions": {
     "ecmaVersion": 2015,
