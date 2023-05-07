@@ -28,12 +28,13 @@ const GuessAlbumForm: FC<GuessAlbumProps> = props => {
     setInput(e.target.value)
   }
   const onClick = useCallback(() => {
-    setError(input === '')
-    if (!isError) {
-      onSubmit?.call(this, input)
-      setInput('')
+    setError(input === '' || title === '')
+    if (!input || !title) {
+      return
     }
-  }, [input, isError, onSubmit])
+    onSubmit?.call(this, input)
+    setInput('')
+  }, [input, title, onSubmit])
 
   return (
     <Flex
@@ -89,6 +90,7 @@ const GuessAlbumForm: FC<GuessAlbumProps> = props => {
           <Input required type="text" {...{ onChange }} value={input} />
           <InputRightAddon px={0} borderRightRadius={StyleSpaces.borderRadius}>
             <Button
+              disabled={!input || !title}
               {...{ onClick }}
               borderRadius={StyleSpaces.borderRadius}
               size="md"
